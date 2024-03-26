@@ -4,4 +4,9 @@ from django.shortcuts import render, HttpResponse
 
 def home(request):
 
-    return HttpResponse("Hello World !")
+    user = request.user
+
+    #return HttpResponse("Hello World !")
+    return render(request, "./home.html")
+
+
