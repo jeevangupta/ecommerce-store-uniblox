@@ -90,7 +90,9 @@ function OnOpenCartClick(e){
                 <td>₹${totalPrice.toFixed(2)}</td>
             </tr>
         </tfoot>
-    </table>`
+    </table>
+    
+    <span class="mt-2"> Applicable Discount: ${discount_details.discount} </span>`
 
     $("#cart-items").html(html_table);
     $(`#Cart`).modal('show')

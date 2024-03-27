@@ -3,7 +3,7 @@ from django.http import JsonResponse
 import json
 # Define an in-memory store using a dictionary
 product_store = {}
-discount_codes = ["jk12","sds21","fm84"]
+discount_codes = ["","jk12","sds21","fm84"]
 
 def home(request):
 
@@ -27,6 +27,9 @@ def add_to_cart(request):
     discount_code = "jk12"
     discount = "10%"
 
+    discount_code = ""
+    discount = "0"
+
     discount_details = {"discount_code":discount_code,"discount":discount}
 
     status = True
@@ -42,8 +45,8 @@ def checkout(request):
 
     discount_details = body_unicode["discount_details"]
 
-    code = discount_details["discount_code"]
-
+    code = discount_details.get("discount_code",None)
+    
     #Lists count of items purchased, total purchase amount, list of discount codes and total discount amount.
     #assuming I have list of discount codes
     #I will check the validity of discount code in payload
@@ -69,7 +72,7 @@ def checkout(request):
         # Calculate final amount after discount
         final_amount = total_amount - discount_amount
         status = True
-        mssg = f"Final amount : ₹{final_amount} \n Discount amount: ₹{discount_amount}"
+        mssg = f"ORDER PLACED \n Final amount : ₹{final_amount} \n Discount amount: ₹{discount_amount}"
 
         #reset the product_store
         #product_store = {}

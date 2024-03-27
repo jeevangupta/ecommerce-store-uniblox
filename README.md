@@ -1,32 +1,37 @@
-You are designing an e-commerce store. Clients can add items to their cart and checkout to successfully place an order. Every nth order gets a coupon code for a 10% discount and can apply to their cart.
 
-We would like you to design and implement APIs for adding items to the cart and checkout functionality. The checkout API would validate if the discount code is valid before giving the discount.
+Functionality
 
-Building a UI that showcases the functionality is a stretch goal. If you are primarily a backend engineer, you can also submit a Postman or REST client or equivalent.
+Client APIs:
+    Add items to cart
+    Checkout with optional discount code application (validated for nth order)
 
-The store also has two admin API's:
+Admin APIs:
+    Generate a discount code (if applicable based on order count)
+    Retrieve purchase statistics (item count, total purchase amount, discount codes, total discount amount)
 
-Generate a discount code if the condition above is satisfied.
-Lists count of items purchased, total purchase amount, list of discount codes, and total discount amount.
-You can build this with a technology stack that you are comfortable with. You will push the code to your GitHub repo and share the link once it's complete. We would like to see your commits that show progression and thought process as to how you are completing the exercise.
+Stretch Goal: Building a UI for the store functionality (using a framework of choice)
 
-Things that you will be evaluated on:
+Technologies Used: Python with Django REST Framework, HTML, CSS, JavaScript/jQuery
 
-Functional code
-Code quality
-UI in a framework of your choice
-Code comments, readme docs
-Unit tests
-Assumptions you can make:
+Get Started:
+1. Clone this repository.
+2. Install required dependencies
+3. Run the application
+    python3 manage.py runserver
 
-The API’s don’t need a backend store. It can be an in-memory store.
-FAQ:
-Q: Can a discount code be used multiple times?
+    To access the home page use -> http://127.0.0.1:8000/shoesvilla/
 
-A: Discount code can be requested by every user, but is made available for every nth order only. The discount code can be used only once before the next one becomes available on the next nth order.
+    Once you are home page you will see bunch of product with an button "add to cart"
 
-Q: Does the discount code apply to one item?
+    When you click on button "add to cart", you will see a pop-up giving the status of action
 
-A: Discount code applies to the entire order.
 
-All the best!
+    On top right side you will see "CART"
+    on click on that you will see a pop-up displaying the list of items in the cart with discount if applicable.
+
+    You will also see button to checkout
+
+    when you click on "checkout" button you will see a pop-up with action status and details
+
+    
+
