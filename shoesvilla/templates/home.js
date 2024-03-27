@@ -28,11 +28,10 @@ function ShowProducts(dom_id, product_count){
 
     $(`#${dom_id} .add-to-cart`).on('click', OnAddToCartClick);
 
-    
-
 }
 
 let product_store = {}
+let discount_details = {}
 
 function OnAddToCartClick(e){
 
@@ -47,9 +46,9 @@ function OnAddToCartClick(e){
     response.then(function(data){
         let status = data["status"]
         product_store = data["product_store"]
-
+        discount_details = data["discount_details"]
         if (status){
-            window.alert("Item add in Cart");
+            window.alert("Product "+ product_name + " add in Cart");
         }
         console.log(status);
     })
@@ -96,4 +95,30 @@ function OnOpenCartClick(e){
     $("#cart-items").html(html_table);
     $(`#Cart`).modal('show')
     
+}
+
+
+function OnCheckoutClick(e){
+
+    let payload = {"discount_details":discount_details}
+
+    response = postData(payload,"/shoesvilla/checkout/");
+
+    response.then(function(data){
+        $(`#Cart`).modal('hide')
+        let status = data["status"]
+        let mssg = data["mssg"]
+        
+        if (status){
+            //reset 
+            product_store = {}
+            discount_details = {}
+
+            $("#cart-items").html("No Item in the cart");
+        }
+        window.alert(mssg);
+
+        console.log(mssg);
+    })
+
 }
