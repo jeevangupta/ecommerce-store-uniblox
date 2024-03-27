@@ -16,7 +16,8 @@ function ShowProducts(dom_id, product_count){
                 </div>
                 
                 <div class="">
-                    <button type="button" class="add-cart btn btn-primary" id="s${i}" value=2000 title="Add to cart" data-toggle="tooltip">Add to cart</button>
+                    <button type="button" class="add-to-cart btn btn-primary" id="sku${i}" price=2000 name="Shoe ${i}"
+                    title="Add to cart" data-toggle="tooltip">Add to cart</button>
                 </div>
             </div>
         </div>
@@ -31,12 +32,68 @@ function ShowProducts(dom_id, product_count){
 
 }
 
+let product_store = {}
+
 function OnAddToCartClick(e){
+
+    let product_id = $(this).attr("id")
+    let product_price = $(this).attr("price")
+    let product_name = $(this).attr("name")
+
+    let payload = {"id":product_id,"name":product_name,"price":product_price}
+
+    response = postData(payload,"/shoesvilla/add-to-cart/");
+
+    response.then(function(data){
+        let status = data["status"]
+        product_store = data["product_store"]
+
+        if (status){
+            window.alert("Item add in Cart");
+        }
+        console.log(status);
+    })
 
 }
 
 function OnOpenCartClick(e){
+    let totalPrice = 0;
 
+    let html_table = `<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">NAME</th>
+        <th scope="col">PRICE</th>
+      </tr>
+    </thead>
+    
+    <tbody>`
+
+    // Loop over each product in the product_store object
+    Object.keys(product_store).forEach(productId => {
+        let product = product_store[productId];
+        html_table += `
+        <tr>
+            <th scope="row">${productId}</th>
+            <td>${product.name}</td>
+            <td>₹${product.price}</td>
+        </tr>
+        `
+        totalPrice += parseFloat(product.price);
+    });
+
+    html_table += `
+        </tbody>
+        <tfoot>
+        <tr>
+            <th colspan="2" class="text-right">Grand Total:</th>
+                <td>₹${totalPrice.toFixed(2)}</td>
+            </tr>
+        </tfoot>
+    </table>`
+
+    $("#cart-items").html(html_table);
     $(`#Cart`).modal('show')
     
 }
