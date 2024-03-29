@@ -31,32 +31,71 @@ function ShowProducts(dom_id, product_count){
 }
 
 let product_store = {}
-let discount_details = {}
+let discount_code = ""
 
 function OnAddToCartClick(e){
-
+    let user_id = $(`#user-id`).val()
     let product_id = $(this).attr("id")
     let product_price = $(this).attr("price")
     let product_name = $(this).attr("name")
 
-    let payload = {"id":product_id,"name":product_name,"price":product_price}
+    let payload = {"user_id":user_id, "id":product_id, "name":product_name, "price":product_price}
 
+    $(`#spinner`).show()
     response = postData(payload,"/shoesvilla/add-to-cart/");
 
     response.then(function(data){
         let status = data["status"]
+        let mssg = data["mssg"]
+
         product_store = data["product_store"]
-        discount_details = data["discount_details"]
+        
         if (status){
-            window.alert("Product "+ product_name + " add in Cart");
+            window.alert("Product "+ product_name + " added in Cart");
         }
+        else{
+            window.alert(mssg);
+        }
+
         console.log(status);
+        console.log(mssg);
+
+        $(`#spinner`).hide()
     })
 
 }
 
+function GetDiscountCode(){
+    let user_id = $(`#user-id`).val();
+    let payload = {"user_id":user_id}
+    let codes = {}
+    let response = postData(payload,"/shoesvilla/get-discount-code/");
+
+    response.then(function(data){
+        let status = data["status"]
+        //let mssg = data["mssg"]
+        let html = ``
+
+        if (status){
+            let codes = data["discount_details"]
+            discount_code = codes.discount_code
+            html = `
+                <span class="mt-2"> Applicable Discount: ${codes.discount} </span>
+            `
+        }
+        else{
+            html = `
+                <span class="mt-2"> Applicable Discount: No Item in Cart </span>
+            `
+        }
+
+        $("#discount-dt").html(html);
+    })
+}
+
 function OnOpenCartClick(e){
     let totalPrice = 0;
+    let user_id = $(`#user-id`).val();
 
     let html_table = `<table class="table">
     <thead>
@@ -70,8 +109,13 @@ function OnOpenCartClick(e){
     <tbody>`
 
     // Loop over each product in the product_store object
-    Object.keys(product_store).forEach(productId => {
-        let product = product_store[productId];
+    let products = {}
+    if (user_id in product_store){
+        products = product_store[user_id]
+    }
+
+    Object.keys(products).forEach(productId => {
+        let product = products[productId];
         html_table += `
         <tr>
             <th scope="row">${productId}</th>
@@ -91,20 +135,25 @@ function OnOpenCartClick(e){
             </tr>
         </tfoot>
     </table>
-    
-    <span class="mt-2"> Applicable Discount: ${discount_details.discount} </span>`
+    `
 
     $("#cart-items").html(html_table);
+
     $(`#Cart`).modal('show')
+
+    GetDiscountCode()
     
 }
 
 
 function OnCheckoutClick(e){
+    let user_id = $(`#user-id`).val();
 
-    let payload = {"discount_details":discount_details}
+    let payload = {"user_id":user_id, "discount_code":discount_code}
 
     response = postData(payload,"/shoesvilla/checkout/");
+
+    $(`#spinner`).show()
 
     response.then(function(data){
         $(`#Cart`).modal('hide')
@@ -121,6 +170,7 @@ function OnCheckoutClick(e){
         window.alert(mssg);
 
         console.log(mssg);
+        $(`#spinner`).hide()
     })
 
 }
