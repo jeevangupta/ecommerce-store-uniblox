@@ -1,37 +1,41 @@
 
-Functionality
+Shoesvilla API
 
-Client APIs:
-    Add items to cart
-    Checkout with optional discount code application (validated for nth order)
+    This API provides functionalities for managing a shoe store inventory and processing customer orders.
 
-Admin APIs:
-    Generate a discount code (if applicable based on order count)
-    Retrieve purchase statistics (item count, total purchase amount, discount codes, total discount amount)
+Features
 
-Stretch Goal: Building a UI for the store functionality (using a framework of choice)
-
-Technologies Used: Python with Django REST Framework, HTML, CSS, JavaScript/jQuery
-
-Get Started:
-1. Clone this repository.
-2. Install required dependencies
-3. Run the application
-    python3 manage.py runserver
-
-    To access the home page use -> http://127.0.0.1:8000/shoesvilla/
-
-    Once you are home page you will see bunch of product with an button "add to cart"
-
-    When you click on button "add to cart", you will see a pop-up giving the status of action
-
-
-    On top right side you will see "CART"
-    on click on that you will see a pop-up displaying the list of items in the cart with discount if applicable.
-
-    You will also see button to checkout
-
-    when you click on "checkout" button you will see a pop-up with action status and details
-
+    Client APIs
+        Add items to cart
+        Checkout with optional discount code application (validated based on order count)
     
+    Admin APIs
+        Generate discount code (if applicable based on order criteria)
+        Retrieve purchase statistics (item count, total purchase amount, discount codes used, total discount amount)
 
+    Stretch Goal (future implementation)
+        Building a user interface (UI) for the store functionality using a preferred framework
+        Technologies Used
+
+    Backend: Python with Django REST Framework
+    
+    Frontend: HTML, CSS, JavaScript/jQuery
+
+Getting Started
+
+    1. Clone the repository
+    2. Install dependencies (refer to documentation for specific commands)
+    3. Run the application
+        python3 manage.py runserver
+
+Access the API
+    Browse to http://127.0.0.1:8000/shoesvilla/ in your web browser.
+
+Client Functionality
+
+    - The home page displays a list of products.
+    - Clicking the "add to cart" button adds the item to your cart and displays a confirmation popup.
+    - The top right corner displays a "CART" button.
+    - Clicking the "CART" button shows a popup with the list of items in your cart and any applicable discounts.
+    - The cart popup also provides a "checkout" button.
+    - Clicking the "checkout" button initiates the checkout process and displays a confirmation popup with details.
